@@ -11,7 +11,7 @@ var bar = localface.get('m');
 
 console.log("this should be a file",bar);
 
-var data = require("../model/people.json")
+var data = require("../model/world.json")
 console.log("we have data",data)
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -27,7 +27,7 @@ router.get('/:id', function(req, res) {
 });
 
 router.get('/:id/image', function(req, res) { 
-  const foo = data[req.params.id]
+  const foo = data["people"][req.params.id]
   var file = localface.get(foo.gender.toLowerCase(),foo.imageID);
   res.sendFile(file)
 });

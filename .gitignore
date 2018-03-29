@@ -2,6 +2,9 @@
 # Ignore Mac DS_Store files
 .DS_Store
 
+#semanticsemantic/
+semantic
+
 # Logs
 logs
 *.log
