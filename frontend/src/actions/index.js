@@ -1,6 +1,8 @@
 
 import axios from 'axios'
 export const LOAD_PEOPLE = 'LOAD_PEOPLE'
+export const INVITE_MEMBER = 'INVITE_MEMBER'
+export const WANT_PROJECT = 'WANT_PROJECT'
 
 export const api = "http://localhost:3001"
 
@@ -36,11 +38,14 @@ export function loadPeople() {
     axios(postsurl)
       .then(function(response) {
 
-        const  {people,companies,founder,properties} = response.data
-       
+        const {people, companies, founder, properties} = response.data
+
         const action = {
           type: LOAD_PEOPLE,
-          people ,companies,founder,properties
+          people,
+          companies,
+          founder,
+          properties
         }
 
         dispatch(action)
@@ -55,6 +60,27 @@ export function loadPeople() {
 
 }
 
+
+export function inviteMember({personid}) {
+
+  return {
+    type: INVITE_MEMBER,
+    personid
+  }
+
+}
+
+
+export function wantProject({personid,project}) {
+
+  return {
+    type: WANT_PROJECT,
+    personid,
+    project
+
+  }
+
+}
 
 
 

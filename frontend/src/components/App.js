@@ -23,12 +23,12 @@ class BooksApp extends React.Component {
   render() {
 
     return (
-    <div>
+      <div>
 
     <Switch>
     <Route exact path='/' render={() => (
-  <MainView  />
-)}/>
+        <MainView  />
+      )}/>
       
         
 
@@ -55,12 +55,12 @@ class BooksApp extends React.Component {
       */
 
 
-      /*
+/*
      function mapStateToProps({categories}) {
 
-      return categoryFromProps({
-        categories
-      })
+return categoryFromProps({
+  categories
+})
     
     }
     */

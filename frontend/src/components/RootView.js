@@ -3,14 +3,15 @@ import '../styles/semantic.min.css'
 import { connect } from 'react-redux'
 
 
-import { Header, List, Dropdown ,Image} from 'semantic-ui-react'
+import { Header, List, Dropdown, Image, Grid } from 'semantic-ui-react'
 
 import sortBy from 'sort-by'
 import { pseudoRandomBytes } from 'crypto';
 
+import { linkOfPerson } from '../utils/Person'
 
-
-
+import MainMenu from './MainMenu'
+import MessageListView from './PersonMessageView'
 
 class RootView extends React.Component {
 
@@ -33,23 +34,24 @@ class RootView extends React.Component {
   render() {
 
 
-    let {people,companies,you} = this.props
-   
-    if (!(people)){
-        console.log("no body")
-        people = []
+    let {people, companies, you, boardStatus} = this.props
+
+    if (!(people)) {
+      console.log("no body")
+      people = []
     } else {
-        console.log("found people",people)
+      console.log("found people", people)
     }
 
     const bar = people.map((x) => {
-        console.log("name is ", x.name)
-        return x.name
+      console.log("name is ", x.name)
+      return x.name
     })
     console.log(bar)
     return (
-      <div key="Main Menu">
+      <div key="home">
       
+      <MainMenu/>
      
       <div style = {{
         marginTop: "10px",
@@ -58,30 +60,37 @@ class RootView extends React.Component {
         backgroundColor: "white"
       }}>
      
+     <Grid columns='equal' padded>
+
+<Grid.Column>
      <Header>{you.name}'s Network</Header>
     
       <List>
            
        { people.map((person) => {
-         const link = 'http://localhost:3001/users/' +person.id +'/image'
-         const details = '/user/'  + person.id
+        const link = 'http://localhost:3001/users/' + person.id + '/image'
+        const details = '/user/' + person.id
 
-         const da = Date.parse(person.birth)
-         //console.log("we are at",da)
-         //const birthDay = da.toLocaleDateString("en-US")
- //src={link} size='mini' bordered='true' circular />
- 
+        const da = Date.parse(person.birth)
+        //console.log("we are at",da)
+        //const birthDay = da.toLocaleDateString("en-US")
+        //src={link} size='mini' bordered='true' circular />
+
         var company = companies[person["employment"][0]]
-        var cName = company["Name"] +" (" + company["Sector"] + ")"
-        
-         var age =  2017 - person.birth.year
+        var cName = company["Name"] + " (" + company["Sector"] + ")"
 
+        var age = 2017 - person.birth.year
 
-         return (
-           <List.Item key={person.id}>
+        var pLink = linkOfPerson({
+          person,
+          boardStatus
+        })
+
+        return (
+          <List.Item key={person.id}>
            <Image avatar src={link}  />
            <List.Content>
-             <List.Header as='a' href={details}>{person.name}</List.Header>
+             {pLink}
              <List.Description>Works in {person.occupation} at {cName}, Age:{age}.
              </List.Description>
              </List.Content>
@@ -90,12 +99,18 @@ class RootView extends React.Component {
        
        
        </List.Item>
-         )
+        )
 
-       })
-    }
+      })
+      }
 
         </List> 
+
+        </Grid.Column>
+        <Grid.Column>
+        <MessageListView personid={you.id}/>
+          </Grid.Column>
+          </Grid>
         </div>
         </div>
     )
@@ -104,45 +119,45 @@ class RootView extends React.Component {
 }
 
 
-function mapStateToProps({people,founder,companies} ,ownProps) {
+function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
 
- 
-    const keys = Object.keys(people)
 
- 
- 
-   
-  
-    if (keys.length > 0) {
+  const keys = Object.keys(people)
 
-      console.log("this is the host",founder)
 
-      const you = people[founder]
 
-      const keys = Object.keys(you.friends)
-      let mainPosts = keys.map((key) => {
-        return people[key]
-      })
-  
-      return {
-       
-        "people": mainPosts,
-        companies,
-        you
-  
-      }
-    }
+
+
+  if (keys.length > 0) {
+
+    console.log("this is the host", founder)
+
+    const you = people[founder]
+    const keys = Object.keys(you.friends)
+    let mainPosts = keys.map((key) => {
+      return people[key]
+    })
 
     return {
-     
-      "people": [],
-      "companies":[],
-      you:{}
+
+      "people": mainPosts,
+      companies,
+      you,
+      boardStatus
     }
+  }
 
- 
+  return {
 
- 
+    "people": [],
+    "companies": [],
+    you: {},
+    boardStatus
+  }
+
+
+
+
 }
 
 /*
