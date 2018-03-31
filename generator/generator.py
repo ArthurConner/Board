@@ -233,7 +233,7 @@ class WorldGenerator:
 def main():
     world = WorldGenerator(mcount=50,fcount=50)
     print(world.people[1])
-    world.export("../server/model/worldx.json")
+    world.export("../server/model/world.json")
   
 if __name__== "__main__":
   main()

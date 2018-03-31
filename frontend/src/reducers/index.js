@@ -70,7 +70,7 @@ const initialRedState = {
       needs:{
           funds:100
       },
-      done:false,
+      done:true,
       wantedBy:[]
 
     },
@@ -93,7 +93,7 @@ const initialRedState = {
       needs:{
        marketing:1
       },
-      done:false,
+      done:true,
       wantedBy:[]
 
     },
@@ -103,7 +103,7 @@ const initialRedState = {
       needs:{
         accounting:1
       },
-      done:false,
+      done:true,
       wantedBy:[]
 
     }

@@ -11,7 +11,7 @@ class MenuView extends React.Component {
 
   innerStatus = ()=>{
 
-    //console.log("back here", this)
+    console.log("back here in inner status")
 
     let {ourProjects,
       ourBoard} = this.props
@@ -26,13 +26,16 @@ class MenuView extends React.Component {
       const idea = ourProjects[Math.floor(Math.random()*ourProjects.length)];
 
       
-      const already = idea.wantedBy.filter((x)=>{x == member.id})
+      const already = idea.wantedBy.filter((x)=>{return x === member.id})
       
+      console.log("checking",member,idea,already)
       if (already.length < 1) {
 
-        console.log("we have ",member,idea,ourBoard,already)
+        console.log("we have ",member.id,"should not be in", idea.wantedBy ,already)
         this.props.wantProject({personid:member.id,project:idea})
         console.log("would add project " + idea.request)
+      } else {
+        console.log("did the job")
       }
     } else {
       console.log("Nothing to do")
@@ -43,7 +46,7 @@ class MenuView extends React.Component {
 
   checkStatus = () => {
     console.log("will check status")
-    setTimeout(this.innerStatus, 30000)
+    setTimeout(this.innerStatus, 30090)
 
 
   }
