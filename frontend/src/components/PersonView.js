@@ -1,12 +1,19 @@
 import React from 'react'
 import '../styles/semantic.min.css'
 import { connect } from 'react-redux'
-import { birthday, genderPronoun, friendsOf, linkOfPerson } from '../utils/Person'
+import { birthday, genderPronoun, friendsOf, linkOfPerson, statusOfPerson } from '../utils/Person'
 
 import { Header, List, Dropdown, Image, Grid, Button } from 'semantic-ui-react'
 import MessageListView from './PersonMessageView'
 import MainMenu from './MainMenu'
 import ContactButton from './ContactButton'
+
+
+
+import FriendListItem from './FriendListItem'
+
+
+
 
 class PersonView extends React.Component {
 
@@ -37,9 +44,11 @@ class PersonView extends React.Component {
     return ""
   }
 
+
+
   render() {
 
-    let {person, workHistory, friends, sectors, job, boardStatus} = this.props
+    let {person, workHistory, friends, sectors, job, boardStatus, founder, people} = this.props
 
     const link = 'http://localhost:3001/users/' + person.id + '/image'
 
@@ -132,28 +141,17 @@ class PersonView extends React.Component {
 
 <Header  as='h2' >Friends With:</Header>
 
-            <List horizontal>
+            <List>
            
            { friends.map((person) => {
-        const link = 'http://localhost:3001/users/' + person.id + '/image'
 
+             return (
+               <FriendListItem person={person} hostid={person.id} status={this.props.status}/>
+             )
+       
 
-        const personDet = linkOfPerson({
-          person,
-          boardStatus
-        })
-
-        return (
-          <List.Item key={person.id}>
-               <Image avatar src={link}  />
-               <List.Content>
-                 {personDet}
-                 </List.Content>
-           </List.Item>
-        )
-
-      })
-      }
+      
+      })}
     
 
             </List> 
@@ -180,7 +178,10 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
       workHistory: [],
       friends: [],
       sectors: "",
-      job: ""
+      job: "",
+      founder:"",
+      people:{},
+      status:-1
 
 
     }
@@ -191,7 +192,7 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
   let friends = friendsOf({
     person: you,
     people
-  })
+  }).filter((x)=>{return x.id !== founder})
 
 
   const currentPos = you.employment[0]
@@ -225,6 +226,7 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
 
   }
 
+  const status = statusOfPerson({person:you,founder,people,boardStatus})
 
   return {
 
@@ -233,7 +235,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
     friends,
     sectors: Array.from(mysectors).join(", "),
     job,
-    boardStatus
+    boardStatus,
+   founder,people,
+   status
   }
 
 
@@ -247,10 +251,11 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
 function mapDispatchToProps(dispatch) {
 
   return {
-    fetchPost: (data) => dispatch(fetchPost(data))
+    inviteFriend: (data) => dispatch(inviteFriend(data))
   }
 }
 */
+
 
 
 

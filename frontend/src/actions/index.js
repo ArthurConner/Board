@@ -3,7 +3,7 @@ import axios from 'axios'
 export const LOAD_PEOPLE = 'LOAD_PEOPLE'
 export const INVITE_MEMBER = 'INVITE_MEMBER'
 export const WANT_PROJECT = 'WANT_PROJECT'
-
+export const ADD_FRIEND = 'ADD_FRIEND'
 export const api = "http://localhost:3001"
 
 
@@ -79,6 +79,18 @@ export function wantProject({personid,project}) {
     project
 
   }
+
+}
+
+export function inviteFriend({personid,alreadyid}){
+
+  return {
+    type:ADD_FRIEND,
+    personid,
+    alreadyid
+
+  }
+
 
 }
 

@@ -1,4 +1,4 @@
-import { LOAD_PEOPLE, INVITE_MEMBER , WANT_PROJECT} from '../actions'
+import { LOAD_PEOPLE, INVITE_MEMBER , WANT_PROJECT,ADD_FRIEND} from '../actions'
 
 
 const initialTestState = {
@@ -188,6 +188,24 @@ function reditReducer(state = initialRedState, action) {
       }
 
     break
+
+    case ADD_FRIEND:
+
+      let nextPep = {...state.people}
+      let f = nextPep[state.founder]
+      console.log("prior friends",nextPep[state.founder].friends)
+      if (personid in f.friends){
+        f.friends[personid] = f.friends[personid] + 1
+      } else {
+      f.friends[personid] = 1
+      }
+      console.log("adding a friend",personid,nextPep[state.founder].friends)
+      return {
+        ...state,
+        people:nextPep
+      }
+
+      break
 
     default:
       return state

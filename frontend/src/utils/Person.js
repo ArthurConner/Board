@@ -1,7 +1,7 @@
 
 
 import React from 'react'
-import {  List } from 'semantic-ui-react'
+import {  List ,ListIcon} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export function birthday(person){
@@ -37,7 +37,7 @@ return mainPosts
 
 }
 
-export function linkOfPerson({person,boardStatus}){
+export function linkOfPerson({person,founder,people,boardStatus}){
 
     const details = '/user/'  + person.id
 
@@ -46,9 +46,60 @@ export function linkOfPerson({person,boardStatus}){
         thes.color = '#bd6732'
     }
 
-    return (
-    <List.Header   ><Link style to={details} style={thes}>{person.name}</Link></List.Header>
-    )
+    switch (statusOfPerson({person,founder,people,boardStatus})){
+        case 1:
+
+        return (
+            <List.Header   ><Link style to={details} style={{color:'black'}}>{person.name}<List.Icon name='smile' /></Link></List.Header>
+            )
+        break
+        case 2:
+        return (
+            <List.Header   ><Link style to={details} style={{color:'#bd6732'}}>{person.name}<List.Icon name='smile' /></Link></List.Header>
+            )
+        break
+        case 3:
+        return (
+            <List.Header   ><Link style to={details} style={{color:'#772ba1'}}>{person.name}</Link></List.Header>
+            )
+        case 4:
+        return (
+            <List.Header   ><Link style to={details} style={{color:'2fa22b1'}}>{person.name}</Link></List.Header>
+            )
+
+
+
+
+    }
+
+    
+    
+
+}
+
+export function statusOfPerson({person,founder,people,boardStatus}){
+
+
+    const details = '/user/'  + person.id
+    if (!(person)){
+        return 0
+    }
+
+    if (person.id === founder){
+        return 1
+    }
+
+    if  (person.id in boardStatus) {
+        return 2
+    }
+
+    const host = people[founder]
+
+    if (person.id in host.friends) {
+        return 3
+    }
+   
+    return 4
 
 }
 

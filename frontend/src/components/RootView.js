@@ -34,7 +34,7 @@ class RootView extends React.Component {
   render() {
 
 
-    let {people, companies, you, boardStatus} = this.props
+    let {people, companies, you, boardStatus,masterList} = this.props
 
     if (!(people)) {
       console.log("no body")
@@ -83,8 +83,12 @@ class RootView extends React.Component {
 
         var pLink = linkOfPerson({
           person,
+          founder:you.id,
+          people:masterList,
           boardStatus
         })
+
+       
 
         return (
           <List.Item key={person.id}>
@@ -146,7 +150,8 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
       "people": mainPosts,
       companies,
       you,
-      boardStatus
+      boardStatus,
+      masterList:people
     }
   }
 
@@ -155,7 +160,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
     "people": [],
     "companies": [],
     you: {},
-    boardStatus
+    boardStatus,
+    masterList:people
+
   }
 
 
