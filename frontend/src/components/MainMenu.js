@@ -10,30 +10,34 @@ import MessageListView from './PersonMessageView'
 
 class MenuView extends React.Component {
 
-  innerStatus = ()=>{
+  innerStatus = () => {
 
     console.log("back here in inner status")
 
-    let {ourProjects,
-      ourBoard} = this.props
-    
-    
-   
-    if ((ourBoard.length > 0)&&(ourProjects.length > 0)){
+    let {ourProjects, ourBoard} = this.props
 
-      
 
-      const member = ourBoard[Math.floor(Math.random()*ourBoard.length)];
-      const idea = ourProjects[Math.floor(Math.random()*ourProjects.length)];
 
-      
-      const already = idea.wantedBy.filter((x)=>{return x === member.id})
-      
-      console.log("checking",member,idea,already)
+    if ((ourBoard.length > 0) && (ourProjects.length > 0)) {
+
+
+
+      const member = ourBoard[Math.floor(Math.random() * ourBoard.length)];
+      const idea = ourProjects[Math.floor(Math.random() * ourProjects.length)];
+
+
+      const already = idea.wantedBy.filter((x) => {
+        return x === member.id
+      })
+
+      console.log("checking", member, idea, already)
       if (already.length < 1) {
 
-        console.log("we have ",member.id,"should not be in", idea.wantedBy ,already)
-        this.props.wantProject({personid:member.id,project:idea})
+        console.log("we have ", member.id, "should not be in", idea.wantedBy, already)
+        this.props.wantProject({
+          personid: member.id,
+          project: idea
+        })
         console.log("would add project " + idea.request)
       } else {
         console.log("did the job")
@@ -41,8 +45,8 @@ class MenuView extends React.Component {
     } else {
       console.log("Nothing to do")
     }
-    
-    //this.checkStatus()
+
+  //this.checkStatus()
   }
 
   checkStatus = () => {
@@ -56,7 +60,7 @@ class MenuView extends React.Component {
 
     this.checkStatus()
 
-    
+
     return (
       <div>
    
@@ -72,12 +76,7 @@ class MenuView extends React.Component {
 
  
 
-       <Menu.Item as= {Link}  to="/messages"  style = {{
-        color: "white"
-      }} >
-          Messages
-        </Menu.Item>
-
+      
       </Menu>
 
        
@@ -88,15 +87,22 @@ class MenuView extends React.Component {
 
 }
 
+/*
+ <Menu.Item as= {Link}  to="/messages"  style = {{
+        color: "white"
+      }} >
+          Messages
+        </Menu.Item>
+
+        */
 
 
-function mapStateToProps({people, founder,  boardStatus,projects}) {
+function mapStateToProps({people, founder, boardStatus, projects}) {
 
-  if (!(projects)){
-    return 
-     {  
-      boardStatus:[]
-      projects:[]
+  if (!(projects)) {
+    return {
+      boardStatus: [],
+      projects: []
     }
 
   }
@@ -106,9 +112,11 @@ function mapStateToProps({people, founder,  boardStatus,projects}) {
   const keys = Object.keys(projects)
   const ourProjects = keys.map((key) => {
     return projects[key]
-  }).filter((x)=>{ return !(x.done)})
+  }).filter((x) => {
+    return !(x.done)
+  })
 
-  const boardKeys =  Object.keys(boardStatus)
+  const boardKeys = Object.keys(boardStatus)
   const ourBoard = boardKeys.map((key) => {
     return people[key]
   })

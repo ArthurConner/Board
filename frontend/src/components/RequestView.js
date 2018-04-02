@@ -3,28 +3,66 @@ import '../styles/semantic.min.css'
 
 import { Link } from 'react-router-dom'
 
-import { Menu, Segment ,Message} from 'semantic-ui-react'
+import { List, Button, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { wantProject } from '../actions'
+import { helpProject } from '../actions'
 
 class RequestView extends React.Component {
+
+
+  askMe = (e, v) => {
+
+
+
+    let project = v.value
+    let {person} = this.props
+
+    console.log("got here in requestview for project", project, "and person", person)
+    this.props.helpProject({
+      personid: person.id,
+      project
+    })
+  }
+
 
 
 
   render() {
 
 
-    
+    let {projects} = this.props
+
+
     return (
       <Message>
    
    <Message.Header>
-      Ask a favor
+     Ask
     </Message.Header>
+    Can you help with 
 
-       <p>Introduce me to a friend </p>
-       <p>Help me with </p>
-       
+      <List>
+      { projects.map((project) => {
+
+        const key = "project_help" + project.key
+
+        return (
+          <List.Item key ={project} >
+  
+ <List.Content>
+  
+ 
+{project.request}?<Button circular floated='right' icon='thumbs outline up' onClick={this.askMe} value={project}/>
+
+
+</List.Content>
+</List.Item>
+        )
+
+      })
+      }
+
+       </List>
       
       </Message>
     )
@@ -34,13 +72,12 @@ class RequestView extends React.Component {
 
 
 
-function mapStateToProps({people, founder,  boardStatus,projects}) {
+function mapStateToProps({people, founder, boardStatus, projects}) {
 
-  if (!(projects)){
-    return 
-     {  
-      boardStatus:[]
-      projects:[]
+  if (!(projects)) {
+    return {
+      boardStatus: [],
+      projects: []
     }
 
   }
@@ -50,16 +87,18 @@ function mapStateToProps({people, founder,  boardStatus,projects}) {
   const keys = Object.keys(projects)
   const ourProjects = keys.map((key) => {
     return projects[key]
-  }).filter((x)=>{ return !(x.done)})
+  }).filter((x) => {
+    return !(x.done)
+  })
 
-  const boardKeys =  Object.keys(boardStatus)
+  const boardKeys = Object.keys(boardStatus)
   const ourBoard = boardKeys.map((key) => {
     return people[key]
   })
 
   return {
-    ourProjects,
-    ourBoard
+    projects: ourProjects,
+
   }
 
 
@@ -68,7 +107,7 @@ function mapStateToProps({people, founder,  boardStatus,projects}) {
 function mapDispatchToProps(dispatch) {
 
   return {
-    wantProject: (data) => dispatch(wantProject(data))
+    helpProject: (data) => dispatch(helpProject(data))
   }
 }
 

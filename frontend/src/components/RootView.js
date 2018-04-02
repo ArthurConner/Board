@@ -34,7 +34,7 @@ class RootView extends React.Component {
   render() {
 
 
-    let {people, companies, you, boardStatus,masterList} = this.props
+    let {people, companies, you, boardStatus, masterList, toDo, completed} = this.props
 
     if (!(people)) {
       console.log("no body")
@@ -63,7 +63,9 @@ class RootView extends React.Component {
      <Grid columns='equal' padded>
 
 <Grid.Column>
-     <Header>{you.name}'s Network</Header>
+<MessageListView personid={you.id}/>
+
+     <Header>Your Network</Header>
     
       <List>
            
@@ -83,12 +85,12 @@ class RootView extends React.Component {
 
         var pLink = linkOfPerson({
           person,
-          founder:you.id,
-          people:masterList,
+          founder: you.id,
+          people: masterList,
           boardStatus
         })
 
-       
+
 
         return (
           <List.Item key={person.id}>
@@ -111,12 +113,58 @@ class RootView extends React.Component {
         </List> 
 
         </Grid.Column>
+
+
         <Grid.Column>
-        <MessageListView personid={you.id}/>
-        <Header  as='h4' >Board Status</Header>
+        
+       
+        
         <Header  as='h4' >To Do's</Header>
-        <Header  as='h4' >Completed Projects</Header>
-          </Grid.Column>
+        <List>
+
+
+          {
+      toDo.map((item) => {
+
+
+        const key = "root_project_" + item.key
+
+        return (
+          <List.Item key = {key}>  {item.request}</List.Item>
+        )
+
+
+      })
+
+      }
+
+
+</List>
+
+
+       <Header  as='h4' >Completed Projects</Header>
+{
+      completed.map((item) => {
+
+
+        const key = "root_project_" + item.key
+
+        return (
+          <List.Item key = {key}>  {item.request}</List.Item>
+        )
+
+
+      })
+
+      }
+
+      <List>
+
+</List>
+
+      <Header  as='h4' >Board Status</Header>
+         </Grid.Column>
+
           </Grid>
         </div>
         </div>
@@ -126,7 +174,7 @@ class RootView extends React.Component {
 }
 
 
-function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
+function mapStateToProps({people, founder, companies, boardStatus, projects} ,ownProps) {
 
 
   const keys = Object.keys(people)
@@ -145,13 +193,28 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
       return people[key]
     })
 
+    const pkeys = Object.keys(projects)
+    const toDo = pkeys.map((key) => {
+      return projects[key]
+    }).filter((x) => {
+      return !(x.done)
+    })
+
+    const completed = pkeys.map((key) => {
+      return projects[key]
+    }).filter((x) => {
+      return (x.done)
+    })
+
     return {
 
       "people": mainPosts,
       companies,
       you,
       boardStatus,
-      masterList:people
+      masterList: people,
+      toDo,
+      completed
     }
   }
 
@@ -161,7 +224,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
     "companies": [],
     you: {},
     boardStatus,
-    masterList:people
+    masterList: people,
+    toDo: [],
+    completed: []
 
   }
 

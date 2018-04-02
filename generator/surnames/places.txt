@@ -52,7 +52,7 @@ Monte Sereno	City	Santa Clara	3,341	1.62	4.2	May 14, 1957
 Moraga	Town	Contra Costa	16,016	9.43	24.4	November 13, 1974
 Morgan Hill	City	Santa Clara	37,882	12.88	33.4	November 10, 1906
 Mountain View	City	Santa Clara	74,066	12.00	31.1	November 7, 1902
-NapaCounty seat	City	Napa	76,915	17.84	46.2	March 23, 1872
+Napa	City	Napa	76,915	17.84	46.2	March 23, 1872
 Newark	City	Alameda	42,573	13.87	35.9	September 22, 1955
 Novato	City	Marin	51,904	27.44	71.1	January 20, 1960
 Oakland	City	Alameda	390,724	55.79	144.5	May 4, 1852
@@ -67,7 +67,7 @@ Pittsburg	City	Contra Costa	63,264	17.22	44.6	June 25, 1903
 Pleasant Hill	City	Contra Costa	33,152	7.07	18.3	November 14, 1961
 Pleasanton	City	Alameda	70,285	24.11	62.4	June 18, 1894
 Portola Valley	Town	San Mateo	4,353	9.09	23.5	July 14, 1964
-Redwood CityCounty seat	City	San Mateo	76,815	19.42	50.3	May 11, 1867
+Redwood City	City	San Mateo	76,815	19.42	50.3	May 11, 1867
 Richmond	City	Contra Costa	103,701	30.07	77.9	August 7, 1905
 Rio Vista	City	Solano	7,360	6.69	17.3	January 6, 1894
 Rohnert Park	City	Sonoma	40,971	7.00	18.1	August 28, 1962
@@ -84,7 +84,7 @@ San Pablo	City	Contra Costa	29,139	2.63	6.8	April 27, 1948
 San Rafael	City	Marin	57,713	16.47	42.7	February 18, 1874
 San Ramon	City	Contra Costa	72,148	18.06	46.8	July 1, 1983
 Santa Clara	City	Santa Clara	116,468	18.41	47.7	July 5, 1852
-Santa RosaCounty seat	City	Sonoma	167,815	41.29	106.9	March 26, 1868
+Santa Rosa	City	Sonoma	167,815	41.29	106.9	March 26, 1868
 Saratoga	City	Santa Clara	29,926	12.38	32.1	October 22, 1956
 Sausalito	City	Marin	7,061	1.77	4.6	September 4, 1893
 Sebastopol	City	Sonoma	7,379	1.85	4.8	June 13, 1902

@@ -9,7 +9,7 @@ import MainMenu from './MainMenu'
 import ContactButton from './ContactButton'
 
 
-
+import MessageCompose from './RequestView'
 import FriendListItem from './FriendListItem'
 
 
@@ -19,36 +19,124 @@ class PersonView extends React.Component {
 
 
 
-  state = {
-    hasMessage: false
+  boardRender() {
 
+    let {person, workHistory, friends, sectors, job, boardStatus, founder, people, status} = this.props
+
+    const key = "PersonView_" + person.id
+
+    const link = 'http://localhost:3001/users/' + person.id + '/image'
+
+    console.log(person.gender, person)
+
+
+    let pronoun = genderPronoun(person)
+    let birth = birthday(person)
+    let hostid = person.id
+
+
+    return (
+
+
+      <div key = {key}>
+      
+      <MainMenu/>
+    
+    <div>
+    <Image centered size='small' src={link}  circular />
+    <Header as='h2' icon textAlign='center'>
+     
+      <Header.Content>
+      {person.name}
+      </Header.Content>
+    </Header>
+
+   
+
+    <Header as='h4'  textAlign='center'>
+  
+      <Header.Content>
+      {person.occupation}<br/>
+      {job} <br/> {person.location}, CA * {friends.length} friends
+      <br/>On Your Board
+      </Header.Content>
+      <Header.Content>
+      
+      </Header.Content>
+    </Header>
+
+  </div>
+
+
+<Grid columns='equal' padded>
+
+<Grid.Column>
+
+ <MessageCompose person={person}/>
+
+   
+
+<Header  as='h4' >Friends With:</Header>
+
+            <List>
+           
+           { friends.map((person) => {
+
+        return (
+          <FriendListItem person={person} hostid={hostid} status={this.props.status}/>
+        )
+
+
+
+      })}
+    
+
+            </List> 
+            </Grid.Column>
+            <Grid.Column>
+
+
+ <MessageListView personid={this.props.personid}/>
+   
+      <Header  as='h4' >About </Header>
+      <p>{birth}, {person.first} has worked in the {sectors.toLowerCase()} sectors.</p>
+    <p> {pronoun} is known to be {person.generosity} with what {pronoun.toLowerCase()} has, and has {person.wealth} to give.</p>
+    
+      <Header  as='h4' >Employment History</Header>
+    <List>
+         
+     { workHistory.map((job) => {
+
+
+        return (
+          <List.Item key={job}>
+        
+         <List.Content>
+          
+           <List.Description>{job}
+           </List.Description>
+           </List.Content>
+
+    
+     
+     
+     </List.Item>
+        )
+
+      })
+      }
+      </List>
+
+
+          </Grid.Column> 
+            </Grid>
+          
+        </div>
+    )
   }
-  showMessage = () => {
-
-
-    this.setState({
-      hasMessage: !(this.state.hasMessage)
-    })
-  }
-
-  messageDetails() {
-
-    if (this.state.hasMessage) {
-      return (
-
-        <Grid.Column>
-    <MessageListView personid={this.props.personid}/>
-    </Grid.Column>
-      )
-    }
-    return ""
-  }
-
-
-
   render() {
 
-    let {person, workHistory, friends, sectors, job, boardStatus, founder, people} = this.props
+    let {person, workHistory, friends, sectors, job, boardStatus, founder, people, status} = this.props
 
     const link = 'http://localhost:3001/users/' + person.id + '/image'
 
@@ -58,22 +146,17 @@ class PersonView extends React.Component {
     let pronoun = genderPronoun(person)
     let birth = birthday(person)
 
+    const key = "PersonView_" + person.id
 
-    const makeCols = () => {
-
-      if (this.state.showMessage) {
-        return 2
-      }
-      return 1
+    if (status < 3) {
+      return this.boardRender()
     }
 
-    let cols = makeCols()
 
-    console.log("we have", cols, "columns")
     return (
 
 
-      <div key = "postdetail_{key}">
+      <div key = {key}>
       
       <MainMenu/>
 
@@ -107,6 +190,7 @@ class PersonView extends React.Component {
 <Grid columns='equal' padded>
 
 <Grid.Column>
+
 
    
       <Header  as='h2' >About </Header>
@@ -145,18 +229,18 @@ class PersonView extends React.Component {
            
            { friends.map((person) => {
 
-             return (
-               <FriendListItem person={person} hostid={person.id} status={this.props.status}/>
-             )
-       
+        return (
+          <FriendListItem person={person} hostid={person.id} status={this.props.status}/>
+        )
 
-      
+
+
       })}
     
 
             </List> 
             </Grid.Column>
-            { this.messageDetails() }
+
             </Grid>
           
         </div>
@@ -179,9 +263,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
       friends: [],
       sectors: "",
       job: "",
-      founder:"",
-      people:{},
-      status:-1
+      founder: "",
+      people: {},
+      status: -1
 
 
     }
@@ -192,7 +276,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
   let friends = friendsOf({
     person: you,
     people
-  }).filter((x)=>{return x.id !== founder})
+  }).filter((x) => {
+    return x.id !== founder
+  })
 
 
   const currentPos = you.employment[0]
@@ -226,7 +312,12 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
 
   }
 
-  const status = statusOfPerson({person:you,founder,people,boardStatus})
+  const status = statusOfPerson({
+    person: you,
+    founder,
+    people,
+    boardStatus
+  })
 
   return {
 
@@ -236,8 +327,9 @@ function mapStateToProps({people, founder, companies, boardStatus} ,ownProps) {
     sectors: Array.from(mysectors).join(", "),
     job,
     boardStatus,
-   founder,people,
-   status
+    founder,
+    people,
+    status
   }
 
 

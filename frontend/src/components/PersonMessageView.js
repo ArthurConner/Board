@@ -21,7 +21,7 @@ class MessageListView extends React.Component {
       <div key = {key}>
     
     <Header  as='h4' >Messages</Header>
-    <MessageCompose personid={this.props.personid}/>
+   
 
     <List>
          
@@ -30,7 +30,7 @@ class MessageListView extends React.Component {
         let myM = ""
 
 
-        if (message.from){
+        if (message.from) {
           const link = 'http://localhost:3001/users/' + message.from + '/image'
 
           myM = (<Image avatar src={link}  />)

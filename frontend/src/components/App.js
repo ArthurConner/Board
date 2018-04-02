@@ -44,7 +44,7 @@ class BooksApp extends React.Component {
         <MessageListView />
           </Grid.Column>
           </Grid>
-)}/>
+      )}/>
 
           </Switch>
         
@@ -66,12 +66,14 @@ class BooksApp extends React.Component {
 
 
 
-     function mapStateToProps({founder}) {
+function mapStateToProps({founder}) {
 
-return {founder}
-    
-    }
-   
+  return {
+    founder
+  }
+
+}
+
 
 
 function mapDispatchToProps(dispatch) {

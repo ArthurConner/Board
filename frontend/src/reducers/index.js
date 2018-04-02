@@ -1,4 +1,4 @@
-import { LOAD_PEOPLE, INVITE_MEMBER , WANT_PROJECT,ADD_FRIEND} from '../actions'
+import { LOAD_PEOPLE, INVITE_MEMBER, WANT_PROJECT, HELP_PROJECT, ADD_FRIEND, SEND_MESSAGE } from '../actions'
 
 
 const initialTestState = {
@@ -53,58 +53,49 @@ const initialRedState = {
 
   ],
   boardStatus: {},
-  projects:{
-    "moreMembers":{
-      key:"moreMembers",
-      request:"more board members",
-      needs:{
-          boardCount: 6
+  projects: {
+
+    "newBuilding": {
+      key: "newBuilding",
+      request: "better gift shop",
+      needs: {
+        funds: 100
       },
-      done:false,
-      wantedBy:[]
+      done: false,
+      wantedBy: []
 
     },
-    "newBuilding":{
-      key:"newBuilding",
-      request:"better gift shop",
-      needs:{
-          funds:100
+    "useful": {
+      key: "useful",
+      request: "us to help more children",
+      needs: {
+
+        funds: 100,
+        marketing: 1
+
       },
-      done:true,
-      wantedBy:[]
+      done: false,
+      wantedBy: []
 
     },
-    "useful":{
-      key:"useful",
-      request:"us to help more children",
-      needs:{
-      
-        funds:100,
-        marketing:1
-
+    "enviormental": {
+      key: "enviormental",
+      request: "be more green",
+      needs: {
+        marketing: 1
       },
-      done:false,
-      wantedBy:[]
+      done: false,
+      wantedBy: []
 
     },
-    "enviormental":{
-      key:"enviormental",
-      request:"be more green",
-      needs:{
-       marketing:1
+    "reporting": {
+      key: "reporting",
+      request: "more reports for our tax filing.",
+      needs: {
+        accounting: 1
       },
-      done:true,
-      wantedBy:[]
-
-    },
-    "reporting":{
-      key:"reporting",
-      request:"more reports for our tax filing.",
-      needs:{
-        accounting:1
-      },
-      done:true,
-      wantedBy:[]
+      done: false,
+      wantedBy: []
 
     }
 
@@ -122,13 +113,10 @@ const initialRedState = {
 
 function reditReducer(state = initialRedState, action) {
 
-  const {people, companies, founder, properties,personid,project} = action
+  const {people, companies, founder, properties, personid, project} = action
 
   switch (action.type) {
     case LOAD_PEOPLE:
-      
-
-
 
       return {
         ...state,
@@ -141,7 +129,7 @@ function reditReducer(state = initialRedState, action) {
       break
     case INVITE_MEMBER:
 
-    
+
       let m = {
         ...state.boardStatus
       }
@@ -150,62 +138,95 @@ function reditReducer(state = initialRedState, action) {
         boardSize: 6,
         happiness: 10
       }
-      let nextM = [...state.messages, {
-        isAdmin: false,
-        from: personid,
-        to: state.founder,
-        time: Date(),
-        message: "I am excited to be on the board."
-      }
-      ]
+
       return {
         ...state,
-        boardStatus: m,
-        messages:nextM
+        boardStatus: m
       }
       break
 
-      case WANT_PROJECT: 
+    case WANT_PROJECT:
 
 
-      let messages = [...state.messages, {
-        isAdmin: false,
-        from: personid,
-        to: state.founder,
-        time: Date(),
-        message: "I want " + project.request
-      }]
-
-      let projects = {...state.projects}
-    
-      projects[project.key] = {...project}
-      projects[project.key].wantedBy.push(personid)
-      
-      return   {
-        ...state,
-        projects,
-        messages
+      let projects = {
+        ...state.projects
       }
 
-    break
+      projects[project.key] = {
+        ...project
+      }
+      projects[project.key].wantedBy.push(personid)
+
+      return {
+        ...state,
+        projects
+      }
+
+      break
+
+    case HELP_PROJECT:
+
+
+      let hprojects = {
+        ...state.projects
+      }
+
+      hprojects[project.key] = {
+        ...project
+      }
+      hprojects[project.key].done = true
+
+      return {
+        ...state,
+        projects: hprojects
+      }
+
+      break
 
     case ADD_FRIEND:
 
-      let nextPep = {...state.people}
+      let nextPep = {
+        ...state.people
+      }
       let f = nextPep[state.founder]
-      console.log("prior friends",nextPep[state.founder].friends)
-      if (personid in f.friends){
+      console.log("prior friends", nextPep[state.founder].friends)
+      if (personid in f.friends) {
         f.friends[personid] = f.friends[personid] + 1
       } else {
-      f.friends[personid] = 1
+        f.friends[personid] = 1
       }
-      console.log("adding a friend",personid,nextPep[state.founder].friends)
+      console.log("adding a friend", personid, nextPep[state.founder].friends)
       return {
         ...state,
-        people:nextPep
+        people: nextPep
       }
 
       break
+
+    case SEND_MESSAGE:
+      const {isFromHost, isAdmin, message} = action
+
+      let aMess = {
+        isAdmin: false,
+        from: personid,
+        to: state.founder,
+        time: Date(),
+        message: message
+      }
+
+
+      if (isFromHost) {
+        aMess.to = personid
+        aMess.from = state.founder
+      }
+
+
+      let nextM = [...state.messages, aMess]
+      return {
+        ...state,
+
+        messages: nextM
+      }
 
     default:
       return state
