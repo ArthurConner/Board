@@ -8,7 +8,8 @@ import PersonView from './PersonView'
 import { connect } from 'react-redux'
 import { loadPeople } from '../actions'
 import { withRouter } from 'react-router'
-
+import { Grid } from 'semantic-ui-react'
+import MessageListView from './PersonMessageView'
 
 class BooksApp extends React.Component {
 
@@ -36,6 +37,15 @@ class BooksApp extends React.Component {
         <PersonView  personid={match.params.id} />
       )}/>
 
+      <Route exact path='/messages' render={({history, match}) => (
+
+        <Grid columns='equal' padded>
+        <Grid.Column>
+        <MessageListView />
+          </Grid.Column>
+          </Grid>
+)}/>
+
           </Switch>
         
 
@@ -55,15 +65,13 @@ class BooksApp extends React.Component {
       */
 
 
-/*
-     function mapStateToProps({categories}) {
 
-return categoryFromProps({
-  categories
-})
+     function mapStateToProps({founder}) {
+
+return {founder}
     
     }
-    */
+   
 
 
 function mapDispatchToProps(dispatch) {

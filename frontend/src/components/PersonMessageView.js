@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 
 import { Header, List, Dropdown, Image, Grid } from 'semantic-ui-react'
-
+import MessageCompose from './RequestView'
 
 class MessageListView extends React.Component {
 
@@ -21,6 +21,8 @@ class MessageListView extends React.Component {
       <div key = {key}>
     
     <Header  as='h4' >Messages</Header>
+    <MessageCompose personid={this.props.personid}/>
+
     <List>
          
      { messages.map((message) => {

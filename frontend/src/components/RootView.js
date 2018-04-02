@@ -109,6 +109,9 @@ class RootView extends React.Component {
         </Grid.Column>
         <Grid.Column>
         <MessageListView personid={you.id}/>
+        <Header  as='h4' >Board Status</Header>
+        <Header  as='h4' >To Do's</Header>
+        <Header  as='h4' >Completed Projects</Header>
           </Grid.Column>
           </Grid>
         </div>

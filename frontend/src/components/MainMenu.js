@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { Menu, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { wantProject } from '../actions'
+import MessageListView from './PersonMessageView'
 
 class MenuView extends React.Component {
 
@@ -71,7 +72,7 @@ class MenuView extends React.Component {
 
  
 
-       <Menu.Item as= {Link}  to="/new/post"  style = {{
+       <Menu.Item as= {Link}  to="/messages"  style = {{
         color: "white"
       }} >
           Messages
