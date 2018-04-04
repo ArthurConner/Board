@@ -72,7 +72,7 @@ class RequestView extends React.Component {
 
 
 
-function mapStateToProps({people, founder, boardStatus, projects}) {
+function mapStateToProps({people, founder, boardStatus, projects} ,ownProps) {
 
   if (!(projects)) {
     return {
@@ -88,7 +88,9 @@ function mapStateToProps({people, founder, boardStatus, projects}) {
   const ourProjects = keys.map((key) => {
     return projects[key]
   }).filter((x) => {
-    return !(x.done)
+    return (!(x.done) && (x.wantedBy.filter((y) => {
+        return y === ownProps.person.id
+      }).length < 1) && (x.wantedBy.length > 0))
   })
 
   const boardKeys = Object.keys(boardStatus)

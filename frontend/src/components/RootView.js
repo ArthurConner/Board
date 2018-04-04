@@ -3,7 +3,7 @@ import '../styles/semantic.min.css'
 import { connect } from 'react-redux'
 
 
-import { Header, List, Dropdown, Image, Grid } from 'semantic-ui-react'
+import { Header, List, Dropdown, Image, ItemDescription, Grid } from 'semantic-ui-react'
 
 import sortBy from 'sort-by'
 import { pseudoRandomBytes } from 'crypto';
@@ -130,7 +130,28 @@ class RootView extends React.Component {
         const key = "root_project_" + item.key
 
         return (
-          <List.Item key = {key}>  {item.request}</List.Item>
+          <List.Item key = {key}>  {item.request}
+
+
+<ItemDescription>
+                    <List horizontal>
+
+{
+          item.wantedBy.map((personid) => {
+            const link = 'http://localhost:3001/users/' + personid + '/image'
+            const aKey = link + item.request
+
+            return (<List.Item key={aKey}> <Image avatar src={link}  /></List.Item>)
+          })
+          }
+item.wantedBy.
+
+x.wantedBy
+
+</List>
+
+</ItemDescription>
+          </List.Item>
         )
 
 
@@ -150,7 +171,13 @@ class RootView extends React.Component {
         const key = "root_project_" + item.key
 
         return (
-          <List.Item key = {key}>  {item.request}</List.Item>
+          <List.Item key = {key}>  {item.request}
+          
+
+          
+          </List.Item>
+
+
         )
 
 
@@ -197,7 +224,7 @@ function mapStateToProps({people, founder, companies, boardStatus, projects} ,ow
     const toDo = pkeys.map((key) => {
       return projects[key]
     }).filter((x) => {
-      return !(x.done)
+      return (!(x.done) && (x.wantedBy.length > 0))
     })
 
     const completed = pkeys.map((key) => {
